@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="840" height="188" viewBox="0 0 840 188" role="img" aria-label="VSU Nursing Conduct System: Replaces a paper logbook with role-based merit and demerit tracking for students, faculty and admins, with email alerts." font-family="'Segoe UI', 'Frutiger', 'Helvetica Neue', 'Noto Sans', Arial, sans-serif"><title>VSU Nursing Conduct System: Replaces a paper logbook with role-based merit and demerit tracking for students, faculty and admins, with email alerts.</title><style>
+.sweep{animation:sweep 18s ease-in-out infinite}
+@keyframes sweep{0%,60%{transform:skewX(-18deg) translateX(0)}90%,100%{transform:skewX(-18deg) translateX(1300px)}}
+.orb{animation:bob 7s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(-3px)}to{transform:translateY(3px)}}@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style><defs>
+<linearGradient id="skyncs" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#CFE6EC"/><stop offset="1" stop-color="#EEF5F2"/></linearGradient>
+<linearGradient id="glossncs" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.45"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+<linearGradient id="sweepncs" x1="0" y1="0" x2="1" y2="0">
+  <stop offset="0" stop-color="#FFFFFF" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".35"/>
+  <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
+<radialGradient id="orbncs" cx=".35" cy=".3" r=".75">
+  <stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/><stop offset=".35" stop-color="#8CCFD6" stop-opacity=".55"/>
+  <stop offset="1" stop-color="#8DB596" stop-opacity=".35"/></radialGradient>
+<radialGradient id="hazencs" cx=".5" cy=".5" r=".5">
+  <stop offset="0" stop-color="#C9C3DE" stop-opacity=".55"/><stop offset="1" stop-color="#C9C3DE" stop-opacity="0"/></radialGradient>
+<filter id="shadowncs" x="-5%" y="-10%" width="110%" height="130%">
+  <feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#2F4A3E" flood-opacity="0.12"/></filter>
+</defs>
+<g filter="url(#shadowncs)">
+  <rect x="16" y="16" width="808" height="156" rx="16" fill="url(#skyncs)"/>
+  <rect x="16" y="16" width="808" height="156" rx="16" fill="#FFFFFF" fill-opacity="0.55"/>
+</g>
+<clipPath id="clipncs"><rect x="16" y="16" width="808" height="156" rx="16"/></clipPath>
+<g clip-path="url(#clipncs)">
+  <rect x="16" y="16" width="808" height="70" fill="url(#glossncs)"/>
+  <rect class="sweep" x="-220" y="0" width="160" height="188" fill="url(#sweepncs)" transform="skewX(-18)"
+        style="animation-delay:8s"/>
+</g>
+<rect x="16.5" y="16.5" width="807" height="155" rx="15.5" fill="none" stroke="#FFFFFF" stroke-opacity=".75"/>
+<g class="orb" style="animation-delay:-8s">
+  <circle cx="72" cy="94" r="34" fill="url(#orbncs)" stroke="#FFFFFF" stroke-opacity=".8"/>
+  <ellipse cx="62" cy="78" rx="16" ry="8" fill="#FFFFFF" fill-opacity=".6"/>
+  <text x="72" y="103" text-anchor="middle" font-size="26" font-weight="300" fill="#2F4A3E">N</text>
+</g>
+<text x="128" y="52" font-size="22" font-weight="600" fill="#2F4A3E">VSU Nursing Conduct System</text>
+<text x="800" y="52" text-anchor="end" font-size="18" fill="#5E7A70">↗</text>
+<text x="128" y="80" font-size="14.5" fill="#5E7A70">Replaces a paper logbook with role-based merit and demerit tracking</text><text x="128" y="101" font-size="14.5" fill="#5E7A70">for students, faculty and admins, with email alerts.</text>
+<rect x="128" y="124" width="87" height="24" rx="12" fill="#FFFFFF" fill-opacity="0.7" stroke="#FFFFFF" stroke-opacity=".6"/><text x="172" y="140" text-anchor="middle" font-size="12" fill="#2F4A3E">Next.js 16</text><rect x="223" y="124" width="74" height="24" rx="12" fill="#FFFFFF" fill-opacity="0.7" stroke="#FFFFFF" stroke-opacity=".6"/><text x="260" y="140" text-anchor="middle" font-size="12" fill="#2F4A3E">Supabase</text><rect x="305" y="124" width="80" height="24" rx="12" fill="#FFFFFF" fill-opacity="0.7" stroke="#FFFFFF" stroke-opacity=".6"/><text x="345" y="140" text-anchor="middle" font-size="12" fill="#2F4A3E">shadcn/ui</text><rect x="393" y="124" width="87" height="24" rx="12" fill="#FFFFFF" fill-opacity="0.7" stroke="#FFFFFF" stroke-opacity=".6"/><text x="437" y="140" text-anchor="middle" font-size="12" fill="#2F4A3E">Nodemailer</text></svg>
