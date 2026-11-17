@@ -3,7 +3,7 @@
 Run:  python scripts/build_assets.py          -> writes assets/*.svg from assets/src/*.jpg
       python scripts/build_assets.py --shoot  -> re-screenshots the live apps first (needs Edge + Pillow)
 
-Rule of the design: the aero look (sky, bubbles, haze) lives only in the hero.
+Rule of the design: the atmosphere (sky, clouds, wires, field) lives only in the hero.
 Everything below it is flat, flush to the text edge, and shows the real product.
 """
 import base64
@@ -18,13 +18,12 @@ OUT, SRC = ROOT / "assets", ROOT / "assets" / "src"
 W = 840
 # shortcut: system font stack instead of outlined text (Segoe UI can't be redistributed as paths)
 FONT = "'Segoe UI', 'Frutiger', 'Helvetica Neue', 'Noto Sans', Arial, sans-serif"
-MONO = "ui-monospace, 'Cascadia Code', Consolas, 'SF Mono', monospace"
 
 THEMES = {
     "light": dict(sky="#CFE6EC", mist="#EEF5F2", field="#8DB596", aqua="#8CCFD6", text="#2F4A3E",
-                  muted="#5E7A70", rule="#C9D9D3", surface="#F6FAF8", node="#FFFFFF", gloss=0.45),
+                  muted="#5E7A70", rule="#C9D9D3", surface="#F6FAF8", cloud=0.6, wire=0.3),
     "dark": dict(sky="#16302F", mist="#0F1E1F", field="#5E8F72", aqua="#4FA3AC", text="#E3F0EC",
-                 muted="#9DB5AE", rule="#2C4644", surface="#132625", node="#1A3332", gloss=0.10),
+                 muted="#9DB5AE", rule="#2C4644", surface="#132625", cloud=0.09, wire=0.3),
 }
 REDUCED = "@media (prefers-reduced-motion: reduce){*{animation:none!important}}"
 
@@ -40,39 +39,56 @@ def lines(x, y, rows, size, fill, lh):
                    for i, r in enumerate(rows))
 
 
-# ---------- hero: the one aero moment ----------
+# ---------- hero: the one atmospheric moment ----------
 def hero(t):
+    """Overcast sky, drifting cloud banks, power lines over a rice field (Lily Chou-Chou)."""
     h = 230
-    bubbles = "".join(
-        f'<circle class="b" cx="{cx}" cy="{cy}" r="{r}" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" '
-        f'style="animation-duration:{d}s;animation-delay:-{dl}s"/>'
-        for cx, cy, r, d, dl in [(90, 200, 14, 26, 3), (180, 225, 7, 20, 11), (560, 215, 18, 32, 8),
-                                 (640, 235, 9, 22, 15), (720, 205, 12, 28, 1), (780, 230, 6, 18, 6),
-                                 (470, 240, 8, 24, 19), (300, 235, 5, 19, 9)])
+    clouds = "".join(
+        f'<ellipse class="c" cx="{x}" cy="{y}" rx="{rx}" ry="{ry}" fill="#FFFFFF" fill-opacity="{a * t["cloud"]:.2f}" '
+        f'filter="url(#soft)" style="animation-duration:{d}s"/>'
+        for x, y, rx, ry, a, d in [(640, 46, 180, 30, 1, 70), (380, 22, 150, 20, .7, 90), (790, 112, 120, 18, .6, 80)])
+
+    def pole(x, top, arm, sw):  # a pole and its cross-arm, kept right of the name
+        return (f'<line x1="{x}" y1="{top}" x2="{x}" y2="196" stroke-width="{sw}"/>'
+                f'<line x1="{x - arm}" y1="{top + 10}" x2="{x + arm}" y2="{top + 10}" stroke-width="{sw}"/>')
+
+    def sag(x1, y1, x2, y2, d):
+        return f'M{x1} {y1} Q {(x1 + x2) / 2} {max(y1, y2) + d} {x2} {y2}'
+
+    near, far = (640, 34, 22), (800, 120, 11)   # x, top, arm half-width
+    wires = []
+    for k in (-1, 0, 1):
+        nx, ny = near[0] + k * near[2], near[1] + 10
+        fx, fy = far[0] + k * far[2], far[1] + 10
+        wires += [sag(nx, ny, fx, fy, 16),                    # near pole -> far pole
+                  sag(fx, fy, 880, fy + 8 + k * 2, 4),        # far pole -> off the right edge
+                  sag(nx, ny, 520 + k * 14, -8, 12)]          # near pole -> up out of frame, above the name
+    wire_svg = "".join(f'<path d="{d}"/>' for d in wires)
     body = f"""<defs>
 <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t['sky']}"/><stop offset="1" stop-color="{t['mist']}"/></linearGradient>
-<linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="{t['gloss']}"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
-<radialGradient id="orb" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/>
-  <stop offset=".35" stop-color="{t['aqua']}" stop-opacity=".55"/><stop offset="1" stop-color="{t['field']}" stop-opacity=".35"/></radialGradient>
+<filter id="soft" x="-50%" y="-80%" width="200%" height="260%"><feGaussianBlur stdDeviation="14"/></filter>
 <clipPath id="clip"><rect width="{W}" height="{h}" rx="16"/></clipPath></defs>
 <g clip-path="url(#clip)">
   <rect width="{W}" height="{h}" fill="url(#sky)"/>
-  <path class="f1" d="M-40 185 C 120 160, 260 195, 420 175 S 700 155, 880 180 V 240 H -40 Z" fill="{t['field']}" fill-opacity=".35"/>
-  <path class="f2" d="M-40 205 C 150 185, 330 215, 520 195 S 760 190, 880 205 V 240 H -40 Z" fill="{t['field']}" fill-opacity=".5"/>
-  {bubbles}
-  <rect width="{W}" height="{h * 0.48:.0f}" fill="url(#gloss)"/>
+  {clouds}
+  <g class="lines" fill="none" stroke="{t['text']}" stroke-opacity="{t['wire']}">
+    <g stroke-width="1">{wire_svg}</g>{pole(*near, 1.6)}{pole(*far, 1)}
+  </g>
+  <path class="f1" d="M-40 188 C 120 168, 260 198, 420 180 S 700 163, 880 184 V 240 H -40 Z" fill="{t['field']}" fill-opacity=".32"/>
+  <path class="f2" d="M-40 207 C 150 191, 330 217, 520 199 S 760 195, 880 209 V 240 H -40 Z" fill="{t['field']}" fill-opacity=".48"/>
 </g>
-<rect x=".5" y=".5" width="{W - 1}" height="{h - 1}" rx="15.5" fill="none" stroke="#FFFFFF" stroke-opacity=".6"/>
+<rect x=".5" y=".5" width="{W - 1}" height="{h - 1}" rx="15.5" fill="none" stroke="{t['rule']}"/>
 <text x="40" y="88" font-size="44" font-weight="300" letter-spacing=".5" fill="{t['text']}">Jamir Oasis Andrade</text>
 <text x="42" y="120" font-size="17" fill="{t['text']}">Full-stack web developer · digitizing traditional workflows</text>
 <text x="42" y="146" font-size="13.5" fill="{t['muted']}">Freelance  ·  Veris backend  ·  GCI World cohort  ·  DOST scholar  ·  CS at VSU</text>"""
     css = """
-.b{animation:rise linear infinite}
-@keyframes rise{0%{transform:translate(0,0);opacity:0}12%{opacity:.9}50%{transform:translate(8px,-100px)}
-88%{opacity:.8}100%{transform:translate(-6px,-210px);opacity:0}}
+.c{animation:cloud linear infinite alternate}
+@keyframes cloud{to{transform:translateX(-60px)}}
+.lines{animation:sway 9s ease-in-out infinite alternate}
+@keyframes sway{to{transform:translateY(1.5px)}}
 .f1{animation:drift 30s ease-in-out infinite alternate}
 .f2{animation:drift 22s ease-in-out infinite alternate-reverse}
-@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(14px)}}"""
+@keyframes drift{from{transform:translateX(-12px)}to{transform:translateX(12px)}}"""
     return svg(W, h, body, "Jamir Oasis Andrade, full-stack web developer", css)
 
 
@@ -121,43 +137,6 @@ def pair_card(t, p, picture, side):
                         f'width="{w + gut}" height="{h}" viewBox="{-x} 0 {w + gut} {h}"', 1)
 
 
-def florence_schema(t, w=412, h=250):
-    """Still diagram of Project Florence's real foreign keys (docs/database/schema.dbml)."""
-    cx = [22, 118, 214, 310]          # four columns, 80 wide, 16 gap
-    ry = [44, 100, 156]               # three lanes
-    nw, nh = 80, 28
-    nodes = {"events": (0, 0), "attendance": (1, 0), "obligations": (2, 0), "payments": (3, 0),
-             "endorsements": (0, 1), "merits": (1, 1), "demerits": (2, 1), "receipts": (3, 1),
-             "sessions": (0, 2), "participants": (1, 2), "credits": (2, 2), "refunds": (3, 2)}
-    edges = [("events", "attendance"), ("attendance", "obligations"), ("payments", "obligations"),
-             ("endorsements", "merits"), ("attendance", "demerits"), ("payments", "receipts"),
-             ("receipts", "refunds"), ("sessions", "participants"), ("participants", "credits")]
-    out = [f'<rect width="{w}" height="{h}" fill="{t["mist"]}"/>',
-           f'<text x="22" y="28" font-family="{MONO}" font-size="10.5" fill="{t["muted"]}">public schema · 31 tables · Postgres</text>']
-    for a, b in edges:
-        (ac, ar), (bc, br) = nodes[a], nodes[b]
-        if ar == br:  # same lane: side to side
-            l, r = sorted((ac, bc))
-            x1, x2, y = cx[l] + nw, cx[r], ry[ar] + nh / 2
-            out.append(f'<line x1="{x1}" y1="{y}" x2="{x2}" y2="{y}" stroke="{t["muted"]}" stroke-opacity=".7"/>')
-        elif ac == bc:  # same column: top to bottom
-            x, y1, y2 = cx[ac] + nw / 2, ry[min(ar, br)] + nh, ry[max(ar, br)]
-            out.append(f'<line x1="{x}" y1="{y1}" x2="{x}" y2="{y2}" stroke="{t["muted"]}" stroke-opacity=".7"/>')
-        else:  # elbow: out of the bottom of a, into the side of b
-            x1, y1 = cx[ac] + nw / 2 + 14, ry[ar] + nh
-            y2 = ry[br] + nh / 2
-            out.append(f'<path d="M{x1} {y1} V{y2} H{cx[bc]}" fill="none" stroke="{t["muted"]}" stroke-opacity=".7"/>')
-    for k, (c, r) in nodes.items():
-        out.append(f'<rect x="{cx[c]}" y="{ry[r]}" width="{nw}" height="{nh}" rx="5" fill="{t["node"]}" stroke="{t["rule"]}"/>'
-                   f'<text x="{cx[c] + nw / 2}" y="{ry[r] + 18}" text-anchor="middle" font-family="{MONO}" '
-                   f'font-size="10.5" fill="{t["text"]}">{k}</text>')
-    by = 208
-    out.append(f'<rect x="22" y="{by}" width="{cx[3] + nw - 22}" height="{nh}" rx="5" fill="none" stroke="{t["field"]}" stroke-dasharray="4 3"/>'
-               f'<text x="{w / 2}" y="{by + 18}" text-anchor="middle" font-family="{MONO}" font-size="10.5" '
-               f'fill="{t["text"]}">clearances · council → academic → RLE</text>')
-    return "".join(out)
-
-
 def stack(t):
     rows = [("Web", "Next.js · React · TypeScript · Tailwind CSS · Supabase · PostgreSQL · Vercel"),
             ("Backend", "C# · ASP.NET MVC · Node.js · Firebase"),
@@ -192,7 +171,7 @@ PROJECTS = {
                        "to one base currency with rates cached for a day."],
                  stack="Next.js 16  ·  React 19  ·  Supabase  ·  Tailwind CSS",
                  url="https://oreo-finance.vercel.app", crop=(700, 135, 1300, 525)),
-    "florence": dict(slug="florence", status="IN DEVELOPMENT", title="Project Florence",
+    "florence": dict(slug="florence", status="LIVE  ·  INVITE ONLY", title="Project Florence",
                      desc=["Nursing faculty records in one place: events,",
                            "fines, payments, merits, demerits, service",
                            "hours and semester clearance."],
@@ -233,7 +212,7 @@ if __name__ == "__main__":
         files = {
             "hero": hero(t), "stack": stack(t), "wave": wave(t),
             "card-oreo": lead_card(t, PROJECTS["oreo"]),
-            "card-florence": pair_card(t, PROJECTS["florence"], florence_schema(t), "left"),
+            "card-florence": pair_card(t, PROJECTS["florence"], photo("florence", 0, 0, 412, 250), "left"),
             "card-ncs": pair_card(t, PROJECTS["ncs"], photo("ncs", 0, 0, 412, 250), "right"),
         }
         for name, s in files.items():

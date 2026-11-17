@@ -1,23 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="840" height="230" viewBox="0 0 840 230" role="img" aria-label="Jamir Oasis Andrade, full-stack web developer" font-family="'Segoe UI', 'Frutiger', 'Helvetica Neue', 'Noto Sans', Arial, sans-serif"><title>Jamir Oasis Andrade, full-stack web developer</title><style>
-.b{animation:rise linear infinite}
-@keyframes rise{0%{transform:translate(0,0);opacity:0}12%{opacity:.9}50%{transform:translate(8px,-100px)}
-88%{opacity:.8}100%{transform:translate(-6px,-210px);opacity:0}}
+.c{animation:cloud linear infinite alternate}
+@keyframes cloud{to{transform:translateX(-60px)}}
+.lines{animation:sway 9s ease-in-out infinite alternate}
+@keyframes sway{to{transform:translateY(1.5px)}}
 .f1{animation:drift 30s ease-in-out infinite alternate}
 .f2{animation:drift 22s ease-in-out infinite alternate-reverse}
-@keyframes drift{from{transform:translateX(-14px)}to{transform:translateX(14px)}}@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style><defs>
+@keyframes drift{from{transform:translateX(-12px)}to{transform:translateX(12px)}}@media (prefers-reduced-motion: reduce){*{animation:none!important}}</style><defs>
 <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16302F"/><stop offset="1" stop-color="#0F1E1F"/></linearGradient>
-<linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF" stop-opacity="0.1"/><stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/></linearGradient>
-<radialGradient id="orb" cx=".35" cy=".3" r=".75"><stop offset="0" stop-color="#FFFFFF" stop-opacity=".95"/>
-  <stop offset=".35" stop-color="#4FA3AC" stop-opacity=".55"/><stop offset="1" stop-color="#5E8F72" stop-opacity=".35"/></radialGradient>
+<filter id="soft" x="-50%" y="-80%" width="200%" height="260%"><feGaussianBlur stdDeviation="14"/></filter>
 <clipPath id="clip"><rect width="840" height="230" rx="16"/></clipPath></defs>
 <g clip-path="url(#clip)">
   <rect width="840" height="230" fill="url(#sky)"/>
-  <path class="f1" d="M-40 185 C 120 160, 260 195, 420 175 S 700 155, 880 180 V 240 H -40 Z" fill="#5E8F72" fill-opacity=".35"/>
-  <path class="f2" d="M-40 205 C 150 185, 330 215, 520 195 S 760 190, 880 205 V 240 H -40 Z" fill="#5E8F72" fill-opacity=".5"/>
-  <circle class="b" cx="90" cy="200" r="14" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:26s;animation-delay:-3s"/><circle class="b" cx="180" cy="225" r="7" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:20s;animation-delay:-11s"/><circle class="b" cx="560" cy="215" r="18" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:32s;animation-delay:-8s"/><circle class="b" cx="640" cy="235" r="9" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:22s;animation-delay:-15s"/><circle class="b" cx="720" cy="205" r="12" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:28s;animation-delay:-1s"/><circle class="b" cx="780" cy="230" r="6" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:18s;animation-delay:-6s"/><circle class="b" cx="470" cy="240" r="8" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:24s;animation-delay:-19s"/><circle class="b" cx="300" cy="235" r="5" fill="url(#orb)" stroke="#FFFFFF" stroke-opacity=".7" style="animation-duration:19s;animation-delay:-9s"/>
-  <rect width="840" height="110" fill="url(#gloss)"/>
+  <ellipse class="c" cx="640" cy="46" rx="180" ry="30" fill="#FFFFFF" fill-opacity="0.09" filter="url(#soft)" style="animation-duration:70s"/><ellipse class="c" cx="380" cy="22" rx="150" ry="20" fill="#FFFFFF" fill-opacity="0.06" filter="url(#soft)" style="animation-duration:90s"/><ellipse class="c" cx="790" cy="112" rx="120" ry="18" fill="#FFFFFF" fill-opacity="0.05" filter="url(#soft)" style="animation-duration:80s"/>
+  <g class="lines" fill="none" stroke="#E3F0EC" stroke-opacity="0.3">
+    <g stroke-width="1"><path d="M618 44 Q 703.5 146 789 130"/><path d="M789 130 Q 834.5 140 880 136"/><path d="M618 44 Q 562.0 56 506 -8"/><path d="M640 44 Q 720.0 146 800 130"/><path d="M800 130 Q 840.0 142 880 138"/><path d="M640 44 Q 580.0 56 520 -8"/><path d="M662 44 Q 736.5 146 811 130"/><path d="M811 130 Q 845.5 144 880 140"/><path d="M662 44 Q 598.0 56 534 -8"/></g><line x1="640" y1="34" x2="640" y2="196" stroke-width="1.6"/><line x1="618" y1="44" x2="662" y2="44" stroke-width="1.6"/><line x1="800" y1="120" x2="800" y2="196" stroke-width="1"/><line x1="789" y1="130" x2="811" y2="130" stroke-width="1"/>
+  </g>
+  <path class="f1" d="M-40 188 C 120 168, 260 198, 420 180 S 700 163, 880 184 V 240 H -40 Z" fill="#5E8F72" fill-opacity=".32"/>
+  <path class="f2" d="M-40 207 C 150 191, 330 217, 520 199 S 760 195, 880 209 V 240 H -40 Z" fill="#5E8F72" fill-opacity=".48"/>
 </g>
-<rect x=".5" y=".5" width="839" height="229" rx="15.5" fill="none" stroke="#FFFFFF" stroke-opacity=".6"/>
+<rect x=".5" y=".5" width="839" height="229" rx="15.5" fill="none" stroke="#2C4644"/>
 <text x="40" y="88" font-size="44" font-weight="300" letter-spacing=".5" fill="#E3F0EC">Jamir Oasis Andrade</text>
 <text x="42" y="120" font-size="17" fill="#E3F0EC">Full-stack web developer · digitizing traditional workflows</text>
 <text x="42" y="146" font-size="13.5" fill="#9DB5AE">Freelance  ·  Veris backend  ·  GCI World cohort  ·  DOST scholar  ·  CS at VSU</text></svg>
